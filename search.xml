@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>计算机基础知识-软硬件和汇编</title>
+      <link href="/posts/df8d5ad8.html"/>
+      <url>/posts/df8d5ad8.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="三大原则"><a href="#三大原则" class="headerlink" title="三大原则"></a>三大原则</h2><ol><li>计算机是执行<code>输入、运算、输出</code>的机器</li><li>程序是<code>指令</code>和<code>数据</code>的集合</li><li>计算机处理方式有时和人类思维习惯不同</li></ol><h3 id="计算机只会输入、运算、输出"><a href="#计算机只会输入、运算、输出" class="headerlink" title="计算机只会输入、运算、输出"></a>计算机只会输入、运算、输出</h3><p>计算机由大量的IC（集成电路）组成，每块IC上都有很多引脚，用于输入和输出。IC将输入的信息进行运算，并把运算结果输出。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210717161912.png" alt="image-20210717161906146"></p><h3 id="软件是指令和数据的集合"><a href="#软件是指令和数据的集合" class="headerlink" title="软件是指令和数据的集合"></a>软件是指令和数据的集合</h3><p>指令就是控制计算机进行输入、运算、输出的命令，把向计算机发出的命令一条条记录下来就构成了程序。程序执行的过程就是计算机依次执行这些指令的过程。把一组指令取个名字就叫做函数了。</p><p>数据就是在程序运行过程中需要的内容，比如变量。</p><h3 id="计算机认为一切都是数字"><a href="#计算机认为一切都是数字" class="headerlink" title="计算机认为一切都是数字"></a>计算机认为一切都是数字</h3><p>比如人们所说的颜色，计算机都用数字编码来表示，如用“0，0，255”表示蓝色。</p><h2 id="计算机硬件组成"><a href="#计算机硬件组成" class="headerlink" title="计算机硬件组成"></a>计算机硬件组成</h2><p>计算机硬件有三个基本要素：</p><ul><li>CPU：负责解释、执行指令，从而执行程序。从内存或I/O输入数据，在内部进行运算，再把运算结果输出到内存或I/O。</li><li>内存：存放程序，程序又是指令和数据和集合。</li><li>I/O：临时存放着用于和周边设备进行输入输出的数据。</li></ul><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210717165118.png" alt="image-20210717165117971"></p><blockquote><p>参考资料《计算机是怎样跑起来的》</p></blockquote><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机基础知识 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 底层架构 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>3</title>
       <link href="/posts/5440.html"/>
       <url>/posts/5440.html</url>
@@ -365,7 +390,7 @@
       
       <categories>
           
-          <category> 计算机底层知识 </category>
+          <category> 计算机基础知识 </category>
           
       </categories>
       
@@ -415,7 +440,7 @@
       
       <categories>
           
-          <category> 计算机底层知识 </category>
+          <category> 计算机基础知识 </category>
           
       </categories>
       
@@ -465,7 +490,7 @@
       
       <categories>
           
-          <category> 计算机底层知识 </category>
+          <category> 计算机基础知识 </category>
           
       </categories>
       
