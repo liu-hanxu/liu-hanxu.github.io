@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>通过hexo-pdf插件在博客上发布pdf</title>
+      <link href="/posts/54657.html"/>
+      <url>/posts/54657.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>我又回来写hexo博客的技术笔记了，因为有一个大(cai)佬(bi)他平时的文档都是用latex写得，发博客有点麻烦，所以要用嵌入pdf的方式进行发表，但是hexo原生不支持pdf，所以我就写了这个教程附带了hexo博客平时的部署方法，供参考。</p><h2 id="安装PDF插件"><a href="#安装PDF插件" class="headerlink" title="安装PDF插件"></a>安装PDF插件</h2><ul><li><p>进入你个人博客本地的根目录，在命令行中打开，并运行</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BASH</span><br><span class="line">npm install --save hexo-pdf</span><br></pre></td></tr></table></figure></li></ul><h2 id="PDF发表"><a href="#PDF发表" class="headerlink" title="PDF发表"></a>PDF发表</h2><p>  这一步在国内有两种可行办法，一种是使用本地的文件，让hexo从博客中加载，一种就是放在云端的存储仓库进行加载。这里两种方法都做演示，但是推荐使用后者。</p><h3 id="方法一：本地仓库"><a href="#方法一：本地仓库" class="headerlink" title="方法一：本地仓库"></a>方法一：本地仓库</h3><ol><li><p>这个方法比较简单，但是效果较差，可能会造成较大的卡顿，首先在本地的根目录下打开<code>source</code>在这个文件夹下直接将你的pdf放进去即可。</p></li><li><p>在你的本地的博客根目录下新建一篇文章命令行</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BASH</span><br><span class="line">hexo new &quot;文章名称&quot;</span><br></pre></td></tr></table></figure></li><li><p>到你的根目录里的<code>source/_posts</code>文件夹中找到新建的文章，在完成了文章的头部编辑之后，在正文部分只用加一句</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BASH</span><br><span class="line">&#123;% pdf /你自己刚刚放的pdf文档的名称.pdf %&#125;</span><br></pre></td></tr></table></figure></li><li><p>回到博客的根目录运行,生成hexo部署文档</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BASH</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure></li><li><p>运行<code>hexo s</code>做本地调试或者是使用<code>hexo d</code>进行远端部署，这个过程中可能会遇到命令行提示github用户名和密码，用户名是GitHub注册邮箱，输入后回车确认密码的输入是不可见的，保证输入无误之后回车即可。</p></li></ol><h3 id="方法二：远端仓库"><a href="#方法二：远端仓库" class="headerlink" title="方法二：远端仓库"></a>方法二：远端仓库</h3><p>白嫖GitHub的远端资源。（这里默认已经掌握GitHub基本操作）</p><ol><li><p>新建一个英文名称的公共仓库。</p></li><li><p>在本地文件夹clone或者是通过任何方法使本地文件夹和仓库相连通</p></li><li><p>将你要发布的pdf放在本地的文件夹中</p></li><li><p>使用<code>git push</code>命令将文件推到远端仓库</p></li><li><p>使用jsDelivr的cdn服务实现国内的加速访问，访问方法如下：<br>在文档中加入pdf嵌入语句</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BASH</span><br><span class="line">&#123;% pdf https://cdn.jsdelivr.net/gh/你的GitHub账户名/你的新建的仓库名/你的文件路径/你的pdf文件.pdf %&#125;</span><br></pre></td></tr></table></figure><p><em>其中的文件路径需要自己进行调整，若是主目录直接使用pdf文件名即可，不需要输入路径。</em></p></li><li><p>和第一种方法一致，新建文章并进行推送即可。</p></li></ol><h2 id="访问网站"><a href="#访问网站" class="headerlink" title="访问网站"></a>访问网站</h2><p>  到这里应该就已经全部结束了，但是在实际访问过程中，我发现我的一些下载插件经常会自动抓取到pdf并提示下载，遇到这种情况就可以通过白名单，或者是忽略解决。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% pdf https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/pdf/test.pdf %&#125;</span><br></pre></td></tr></table></figure><div class="row">    <embed src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/pdf/test.pdf" width="100%" height="550" type="application/pdf"></div>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客美化 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>计算机基础知识-软硬件和汇编</title>
       <link href="/posts/df8d5ad8.html"/>
       <url>/posts/df8d5ad8.html</url>
@@ -45,19 +70,6 @@
       <title>3</title>
       <link href="/posts/5441.html"/>
       <url>/posts/5441.html</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>2</title>
-      <link href="/posts/54657.html"/>
-      <url>/posts/54657.html</url>
       
         <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
       
