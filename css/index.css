@@ -3281,25 +3281,25 @@ span.categoryBar-list-count::after {
   right: -100%;
 }
 li.categoryBar-list-item:nth-child(1) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover1.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover1.jpg');
 }
 li.categoryBar-list-item:nth-child(2) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover2.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover2.jpg');
 }
 li.categoryBar-list-item:nth-child(3) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover3.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg');
 }
 li.categoryBar-list-item:nth-child(4) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover4.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover4.jpg');
 }
 li.categoryBar-list-item:nth-child(5) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover5.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover5.jpg');
 }
 li.categoryBar-list-item:nth-child(6) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover6.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover6.jpg');
 }
 li.categoryBar-list-item:nth-child(7) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/default_post_cover7.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover7.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {
   content: '测试一下' !important;
