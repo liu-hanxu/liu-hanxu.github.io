@@ -1,0 +1,327 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>搞懂链接器4：大型项目的构建过程 | 跑跑的小屋</title><meta name="keywords" content="链接器"><meta name="author" content="paopao"><meta name="copyright" content="paopao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在讲解大型项目如何被构建之前，我们首先来讨论一个问题，有句话说的很好，梦想总是要有的，万一实现了呢，那么问题来了，要怎么实现呢，这里就涉及到了如何实现目标， 目标是如何实现的 其实很简单，本质上只有两点：  知道最后想要的是什么 为此需要做些什么  有时我们的目标可能不是简单的诸如每天跑五公里之类，比如像通过一门考试，学会一项技能这样的系统性工程。这时我们可能一下子不知道要做些什么，那么这就需要进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搞懂链接器4：大型项目的构建过程">
+<meta property="og:url" content="https://liupaopao.top/posts/659154a1.html">
+<meta property="og:site_name" content="跑跑的小屋">
+<meta property="og:description" content="在讲解大型项目如何被构建之前，我们首先来讨论一个问题，有句话说的很好，梦想总是要有的，万一实现了呢，那么问题来了，要怎么实现呢，这里就涉及到了如何实现目标， 目标是如何实现的 其实很简单，本质上只有两点：  知道最后想要的是什么 为此需要做些什么  有时我们的目标可能不是简单的诸如每天跑五公里之类，比如像通过一门考试，学会一项技能这样的系统性工程。这时我们可能一下子不知道要做些什么，那么这就需要进">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liupaopao.top/img/avatar.png">
+<meta property="article:published_time" content="2021-07-30T02:18:05.000Z">
+<meta property="article:modified_time" content="2021-07-30T02:35:45.529Z">
+<meta property="article:author" content="paopao">
+<meta property="article:tag" content="链接器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liupaopao.top/img/avatar.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://liupaopao.top/posts/659154a1"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '搞懂链接器4：大型项目的构建过程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-07-30 10:35:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-clock/lib/clock.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.6/css/swiper.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-swiper/lib/swiperstyle.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus/lib/tag_plugins.min.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-clock"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-file-code"></i><span> HTML</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://hanxuliu.github.io/paopao-games/"><i class="fa-fw fas fa-code"></i><span> 游戏库</span></a></li><li><a class="site-page child" href="/HTML/code_editor/index.html"><i class="fa-fw fas fa-code"></i><span> 编辑器</span></a></li><li><a class="site-page child" href="/HTML/calendar/index.html"><i class="fa-fw fas fa-code"></i><span> 日历表</span></a></li><li><a class="site-page child" href="/HTML/watch_spaceman/index.html"><i class="fa-fw fas fa-code"></i><span> 太空人</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> LOVE</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/LOVE/lovetimeline/"><i class="fa-fw fas fa-fan"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/HTML/date/index.html"><i class="fa-fw fas fa-calendar-day"></i><span> 纪念日</span></a></li><li><a class="site-page child" href="/LOVE/100todos/"><i class="fa-fw far fa-calendar-check"></i><span> 100件事</span></a></li><li><a class="site-page child" href="/HTML/saylove/index.html"><i class="fa-fw fas fa-kiss-wink-heart"></i><span> 为爱表白</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-user-astronaut"></i><span> 其他</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-user"></i><span> 作者</span></a></li><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comment-dots"></i><span> 说说</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">跑跑的小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-clock"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 书单</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-file-code"></i><span> HTML</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://hanxuliu.github.io/paopao-games/"><i class="fa-fw fas fa-code"></i><span> 游戏库</span></a></li><li><a class="site-page child" href="/HTML/code_editor/index.html"><i class="fa-fw fas fa-code"></i><span> 编辑器</span></a></li><li><a class="site-page child" href="/HTML/calendar/index.html"><i class="fa-fw fas fa-code"></i><span> 日历表</span></a></li><li><a class="site-page child" href="/HTML/watch_spaceman/index.html"><i class="fa-fw fas fa-code"></i><span> 太空人</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> LOVE</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/LOVE/lovetimeline/"><i class="fa-fw fas fa-fan"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/HTML/date/index.html"><i class="fa-fw fas fa-calendar-day"></i><span> 纪念日</span></a></li><li><a class="site-page child" href="/LOVE/100todos/"><i class="fa-fw far fa-calendar-check"></i><span> 100件事</span></a></li><li><a class="site-page child" href="/HTML/saylove/index.html"><i class="fa-fw fas fa-kiss-wink-heart"></i><span> 为爱表白</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-user-astronaut"></i><span> 其他</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-user"></i><span> 作者</span></a></li><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comment-dots"></i><span> 说说</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">搞懂链接器4：大型项目的构建过程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-30T02:18:05.000Z" title="发表于 2021-07-30 10:18:05">2021-07-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-07-30T02:35:45.529Z" title="更新于 2021-07-30 10:35:45">2021-07-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%90%9E%E6%87%82%E9%93%BE%E6%8E%A5%E5%99%A8/">搞懂链接器</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="搞懂链接器4：大型项目的构建过程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在讲解大型项目如何被构建之前，我们首先来讨论一个问题，有句话说的很好，梦想总是要有的，万一实现了呢，那么问题来了，要怎么实现呢，这里就涉及到了如何实现目标，</p>
+<p>目标是如何实现的</p>
+<p>其实很简单，本质上只有两点：</p>
+<ul>
+<li>知道最后想要的是什么</li>
+<li>为此需要做些什么</li>
+</ul>
+<p>有时我们的目标可能不是简单的诸如每天跑五公里之类，比如像通过一门考试，学会一项技能这样的系统性工程。这时我们可能一下子不知道要做些什么，那么这就需要进行任务分解了，即这里的规则就是，把一个大的目标分解为一个个小的目标，如果对于其中一个小的目标还是不够具体，那么就继续将小目标进行分解，直到将每个小目标分解为如每天读懂两个章节，做完十个练习题之类很具体可以马上实施的任务为止。到这时，对于如何实现这个大的目标就很清晰了，只需要严格按照计划去实施就好了。比如对于考研，我们就可以列出如下的计划：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210730102100.png" alt="image-20210730102100140"></p>
+<p>在考研这个例子中我们就按照上述规则将目标进行了分解，每个目标都按如下格式列出：</p>
+<blockquote>
+<p>  <strong><em>目标(target): 依赖什么\</em></strong></p>
+<p>​        <strong><em>要怎么做\</em></strong></p>
+</blockquote>
+<p>如果“要怎么做”还不是一个具体的目标就继续分解，直到分解为类似进程这样的目标，因为像进程这样的目标已经有了具体的实现步骤。最后我们将各个已经实现的小目标汇集起来整个大的目标就实现了。</p>
+<p>本质上，一个大型项目的构建过程与此类似。</p>
+<p>Make</p>
+<p>再大的项目最后生成的都是一个可执行文件，只要是可执行文件就需要依赖各种目标文件，动态库，静态库；静态库同样需要依赖其它目标文件，静态库；而动态库可能又依赖其它目标文件，动态库，静态库，知道了这些又该如何构建呢，我们可以利用上面目标划分的方法规划好构建最终的可执行文件需要哪些原材料，这些原材料又是如何获取的。有了这些规划后，我们就可以依次编译出一些小的目标文件，将这些目标文件链接成静态库，动态库以方便使用。然后再一步步连接目标文件以及各种库从而形成更大的库，最后将几个必要库以及目标文件进行链接从而生成最终的可执行文件。</p>
+<p>程序员先驱们确实就是使用这种现在看起来非常原始非常古老的方法进行程序编写的，每个目标文件以及库都是自己手动编译链接出来，然后再将它们链接成更大的库，直到最后生成可执行文件。</p>
+<p>这种方法看上去非常简单，但是缺点也很明显，那就是非常繁琐，一旦某个源文件进行了改动，所有依赖此文件的库都需要重新编译链接，手工来完成这项工作是极其枯燥且容易出错的。为解决这个问题，天才的程序员们想出了一个小工具，没错就是make，从此编译链接这个过程就被make自动化了，程序员得以从繁琐的编译链接中解放出来，使用make时我们只需要编写规则，也就是告诉make最终的可执行文件依赖什么，为此需要做些什么，这些规则类似于上面的目标分解，当编写好这些规则后，然后简单的执行一个命令也就是make就可以了。如果某个源文件被修改了，也只需要简单的重新执行一下make命令，因为整个过程的规则并没有改变，而make也会很聪明的只编译链接那些需要更新的目标文件，库，并重新进行可执行文件的生成。对于那些没有改动的源文件，make不会重新编译它们。</p>
+<p>make中每一条规则与前面的目标划分非常相似，make的规则是这样的：</p>
+<blockquote>
+<p><strong><em>target: prerequisites\</em></strong></p>
+<p>​      <strong><em>recipe\</em></strong></p>
+</blockquote>
+<p>target也就类似于我们的一个目标；而prerequisites，即先决条件，也就是依赖什么；recipe，这个就更形象了，即菜谱，也就是上面的要怎么做。make中的规则保存在了叫做Makefile的文件当中(没错，这个文件的名字就叫做Makefile)，当运行make命令时，make程序会自动找到当前路径下的Makefile，然后开始执行里面的规则。</p>
+<p>有些同学可能为此感到疑惑，这里的Makefile其实就是脚本，而make读取这个脚本然后根据里面的内容来执行命令，而对于make大家也不要觉得很神奇，make也是一个普通程序，和我们平时使用的程序没什么区别。确定好了make需要执行的脚本的名字，这样在运行make命令时就少打了几个单词，假如用户可以自定义make的执行脚本名字，比如用户创建了一个脚本叫做foo，那么执行make的时候就需要多打一个单词“make foo”，所以干脆就直接确定好了脚本的名字就叫Makefile，这样在运行命令时只需要打一个单词make就可以了。</p>
+<p>这里举个简单的例子，比如我们写了一个helloworld程序，将源文件命名为了helloworld.c，我们想把该源文件编程成一个叫做hw的可执行文件，那么一个最简单的Makefile就可以写成这样：</p>
+<blockquote>
+<p><em>hw: helloworld.o</em></p>
+<p>​    <em>gcc helloworld.o -o hw</em></p>
+<p><em>helloworld.o : helloworld.c</em></p>
+<p>​    <em>gcc -c helloworld.c</em></p>
+</blockquote>
+<p>在这里最终的可执行文件hw依赖目标文件helloworld.o，那么假设我们现在已经有helloworld.o了就可以利用命令gcc helloworld.o -o hw生成我们需要的可执行文件了。那么helloworld.o又该如何获得呢？我们看第二条规则，helloworld.o依赖helloworld.c，因为helloworld.c已经写好了，所以可以直接用命令gcc -c helloworld.c来生成。这样整个目标就达成了。</p>
+<p>本质上现在我们使用的各种集成开发环境(IDE)，其自动化编译工具背后的原理和make是一样的，比如我们在使用Visual Studio时从来没有关心过每个文件是如何被编译链接的，这些IDE都为我们代劳了。但是在比如Linux环境下进行开发时，这个过程依然是需要程序员了解的。</p>
+<p>现在让我们来回答本节提出的问题，也就是大型项目是如何被构建的。</p>
+<p>构建大型项目</p>
+<p>大型项目中通常会有成百上千甚至上万个源文件，这些源文件统一放在了一个文件夹中方便管理。典型的项目如图所示，圆形代表源文件，其它为文件夹。注意这里仅仅为说明问题，各个公司团队都有自己的代码组织以及命名方式，而且真实项目要比该图复杂的多，但是本质上这里的讨论适用于其它情况。</p>
+<p>源码组织方式</p>
+<p>通常项目的组织方式如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210730102125.png" alt="image-20210730102125821"></p>
+<p>项目源码会被放置在src当中，这个例子当中src下有两个文件夹，lib以及app，lib用于存放一些工具性的代码，比如这里列举的网络通信以及字符串处理模块，通常lib下的代码会被编译成各种库，方便app使用。app中就是各种需要可执行文件(程序)的代码了。通常像这里的lib以及app都会有专门的团队来负责。更大一些的项目，每个lib下的子目录比如这里的net，strings都会有专门的团队来负责以方便项目的模块化管理。</p>
+<p>从这里可以看出一般项目通常会按模块将源文件放入相应的文件夹下进行分类，我们在上一节中简单介绍了make的用法，但是那里仅仅需要编译一个源文件helloworld.c。对于如上图所示的项目，像make这一类的编译工具又该如何处理呢？</p>
+<p>make的嵌套执行能力可以解决这个问题。比如对于模块net，你可以为net模块写一个单独的Makefile，该Makefile只用于编译net下的源文件，具体的脚本如下所示，只需要简单的两行。</p>
+<p><em>network:</em></p>
+<p>​    <em>cd net &amp;&amp; make</em></p>
+<p><em>
+</em></p>
+<p>这句话的意思是告诉make，要想编译网络模块(network)需要进到net文件夹并且执行make命令，当make进入到net文件夹开始执行make时，net下的Makefile就开始被执行了。通过这样一个简单的命令就可以实现make的嵌套执行了。make的这项特性使得每个模块都可以当做独立项目进行维护。</p>
+<p>编译工具的这项功能，方便了项目的模块化管理。使得项目中每个模块都可以有独立的编译脚本，比如使用make进行编译的话，那么每个模块中都会有单独的Makefile，比如在文件夹net，strings中都有自己的Makefile。如上图中蓝色部分，其中白色部分为源文件，更清晰的关于Makefile的组织方式如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210730102155.png" alt="image-20210730102155778"></p>
+<p>这些脚本中定义了如何编译该模块，以及编译该模块需要依赖什么。这些模块的父目录也就是lib文件夹下同样也有自己的Makefile，lib下的Makefile会收集各个子模块的编译结果，然后将其链接成各种库。而对于app下面的子目录来说，这些子目录中就是各个可执行文件的源码了，比如这里的wechat文件下就是可执行程序微信的源码了，微信中可能会用到lib下提供的功能，那么对于wechat中的Makefile来说，只需要简单的加入对lib中所需要的库的依赖就可以了。wechat的父目录app中同样也有Makefile，这里的Makefile就相对简单了，只需要依次执行QQ，wechat中的Makefile就可以了，因此在src目录下简单的运行make命令，所有app比如QQ和wechat就都被编译出来了。</p>
+<p>接下来我们详细的讲解一下这个过程。请注意一点，接下来讲解的make执行过程仅仅是可能的一种实现方式，但是这个示例已足够说明项目的构建过程。</p>
+<p>make的执行过程</p>
+<p>在上面的示例中src下的Makefile是整个编译过程的入口，因此我们进入src文件夹开始执行make命令。</p>
+<p>（1）在src目录下，make首先读取src下的Makefile，./src/Makefile非常简单，该文件仅仅告诉make需要去app目录下执行make命令。</p>
+<p>（2）make来./src/app目录下，开始读取该目录下的Makefile，该文件定义了编译出QQ，微信的规则，make首先执行编译QQ的规则，该规则告诉make编译QQ则需要到./src/app/QQ目录并执行make命令。</p>
+<p>（3）make来到./src/app/QQ目录下，开始读取该目录下的Makefile，该文件定义了编译QQ程序 的规则，make开始执行这些规则，其中一项规则需要依赖网络模块的库，同时该规则告诉了make如果想得到该网络库则需要进入到./src/lib下执行make命令。</p>
+<p>（4）make来到./src/lib目录下，开始读取该目录下的Makefile，该文件定义了编译出网络库，字符串处理库的规则，make首先执行编译网络库的规则，该规则告诉make如果想得到该网络库则需要进入到./src/lib/net下执行make命令。</p>
+<p>（5）make来到./src/lib/net目录下，开始读取该目录下的Makefile，该文件定义了编译网络库的规则，编译网络库不再依赖任何其它库，make终于可以安心的开始工作不用再跳来跳去了，make开始执行该目录下的Makefile，将一个个源文件编译成目标文件，最后将这些目标文件链接成了静态库(当然也可以是动态库，依赖编译规则)。make在./src/lib/net完成任务后跳转回./src/lib，因为make会记住自己是从哪个目录跳转到当前目录的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210730102227.png" alt="image-20210730102227439"></p>
+<p>（6）make再次回到./src/lib下，因为make执行完了网络库的编译规则，因此继续往下执行，也就是字符串库的编译规则，该规则告诉make如果想得到字符串库则需要进入到src/lib/strings下执行make命令。</p>
+<p>（7）make来到./src/lib/strings目录项，开始读取该目录下的Makefile，该文件定义了编译字符串库的规则，同样，编译字符串库不需要依赖任何其它库，make开始执行该目录下的Makefile，将一个个源文件编译成目标文件，最后将这些目标文件链接成了静态库(当然也可以是动态库)。make在./src/lib/strings下完成任务后跳转回./src/lib，因为make就是从这个目录跳转到./src/lib/strings的。</p>
+<p>（8）make回到./src/lib，如果该目录下的Makefile还有其它编译规则，则继续上面的过程，如果没有其它规则，则该目录下的编译任务执行完成，make返回到./src/app/QQ。</p>
+<p>（9）make回到./src/app/QQ下继续执行被中断的规则，这时QQ所依赖的库都已经编译完成，因此make可以直接进行链接了，QQ程序编译链接完成。make返回到./src/app。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210730102246.png" alt="image-20210730102246124"></p>
+<p>（10）make来到./src/app下继续执行被中断的规则，make开始执行微信程序的编译规则，这里和QQ的编译是一样的，唯一一点即如果微信也需要依赖网络库和字符串库，那么当make调转到./src/lib下会发现这些库已经生成了，因此直接返回。当make执行完./src/app下的编译规则后，QQ和微信程序就都编译完成了。make返回到./src后，发现该目录下的Makefile执行完毕，因此make程序退出，整个编译过程完成。</p>
+<p>如果你对这个过程还不是很清楚的话，我们用一个游戏的类比来加深你对整个过程的理解。</p>
+<p>相信很多同学都玩过RPG(角色扮演)游戏，比如仙剑奇侠传，阴阳师。你可以把大型项目的编译过程想象成玩RPG游戏，这类的游戏通常都会有一个主线，若干支线，通常主线的每一关都需要你去某个支线完成任务，例如拿到宝物之类，当你完成支线任务拿到宝物后，你才能回到主线进入到下一关。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/20210730102319.png" alt="image-20210730102319657"></p>
+<p>在这里，make程序就好比玩家，游戏里的任务就好比编译脚本Makefile，主线任务就好比app下的Makefile，支线任务就好比编译app所依赖的库或者目标文件，比如这里的lib下的Makefile。</p>
+<p>首先玩家make进入主线，也就是app下，读取主线需要完成的任务(app下的Makefile)，主线任务告诉玩家make通过其中某一关(比如编译出可执行文件app1)依赖一个支线任务，拿到宝物(app1所依赖的lib下的某个库)，这时玩家make开始去支线场景(进入lib文件夹)，然后读取支线任务(读取lib下的Makefile)，make开始在lib下打怪升级(开始编译链接lib下源文件并生成相应的库)，当make完成支线任务拿到宝物(lib中编译出来的库)回到主线任务(回到app下Makefile因跳转到lib被中断的接下来的编译脚本)后，才可以继续接下来的通关。</p>
+<p>有的同学可能已经发现了，像上面的这种编译实现方式其实是比较混乱的，既然我们make给了我们可以将每个模块当做独立项目进行编译的能力，那么对于非应用程序的代码比如这里的src/lib，我们可以提前编译出来，最后再来编译src/app下的代码，这样当依赖某个库时无需再去将该库编译出来。使用上面的编译顺序是为了说明make的构建方式是多样的，实际上使用make这一类的工具你可以使用任何你想要的编译顺序进行项目构建，本质上写Makefile就是写程序，这些程序告诉make该如何构建出最后的可执行文件，至于构建程序该以什么样的顺序构建出可执行文件，一切由你做主。这就是make这类编译工具的灵活以及强大之处。</p>
+<p>还有一点需要注意的就是，真实的项目中会有很多模块是相互独立的，即这些模块互不依赖，为加快编译速度，make支持并行编译以充分利用多核的处理能力。</p>
+<p>关于大型项目的构建到这里就讲解的差不多了，我们可以看到大型项目的构建其实和我们平时完成一个目标是类似的，先有一个大的目标并将其分解为一个个比较容易实现的小目标，当所有的小目标完成后我们的目的也就是实现了。本质上大型项目的构建与此类似。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">paopao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://liupaopao.top/posts/659154a1.html">https://liupaopao.top/posts/659154a1.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liupaopao.top" target="_blank">跑跑的小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%93%BE%E6%8E%A5%E5%99%A8/">链接器</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/6748ea9.html"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">搞懂链接器3：重定位</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/600f79ea.html" title="搞懂链接器1：链接器定义和符号决议"><img class="cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-29</div><div class="title">搞懂链接器1：链接器定义和符号决议</div></div></a></div><div><a href="/posts/6748ea9.html" title="搞懂链接器3：重定位"><img class="cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-29</div><div class="title">搞懂链接器3：重定位</div></div></a></div><div><a href="/posts/7173be3f.html" title="搞懂链接器2：库与可执行文件的生成"><img class="cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-29</div><div class="title">搞懂链接器2：库与可执行文件的生成</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">paopao</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/HanxuLiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.cnblogs.com/liuhanxu" target="_blank" title="博客园"><i class="fas fa-rss-square"></i></a><a class="social-icon" href="mailto:liupaopao520@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://github.com/HanxuLiu" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/liuhanxu" target="_blank" title="Gitee"><i class="fab fa-gg-circle"></i></a><a class="social-icon" href="https://liupaopao.coding.net" target="_blank" title="Coding"><i class="fab fa-github-alt"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">月黑见渔灯，孤光一点萤。微微风簇浪，散作满河星。</div></div><div class="sticky_layout"><!--!=partial('includes/widget/card_history', {}, {cache:theme.fragment_cache})--><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/659154a1.html" title="搞懂链接器4：大型项目的构建过程">搞懂链接器4：大型项目的构建过程</a><time datetime="2021-07-30T02:18:05.000Z" title="发表于 2021-07-30 10:18:05">2021-07-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6748ea9.html" title="搞懂链接器3：重定位">搞懂链接器3：重定位</a><time datetime="2021-07-29T13:31:26.000Z" title="发表于 2021-07-29 21:31:26">2021-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/7173be3f.html" title="搞懂链接器2：库与可执行文件的生成">搞懂链接器2：库与可执行文件的生成</a><time datetime="2021-07-29T13:31:12.000Z" title="发表于 2021-07-29 21:31:12">2021-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/600f79ea.html" title="搞懂链接器1：链接器定义和符号决议">搞懂链接器1：链接器定义和符号决议</a><time datetime="2021-07-29T13:31:01.000Z" title="发表于 2021-07-29 21:31:01">2021-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/54657.html" title="通过hexo-pdf插件在博客上发布pdf"><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/hexo_logo.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="通过hexo-pdf插件在博客上发布pdf"/></a><div class="content"><a class="title" href="/posts/54657.html" title="通过hexo-pdf插件在博客上发布pdf">通过hexo-pdf插件在博客上发布pdf</a><time datetime="2021-07-20T07:45:01.000Z" title="发表于 2021-07-20 15:45:01">2021-07-20</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 By paopao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">❤️</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div id="running-time"><script>setInterval(()=>{let create_time=Math.round(new Date('2021-05-20 00:00:00').getTime()/1000);let timestamp=Math.round((new Date().getTime()+8*60*60*1000)/1000);let second=timestamp-create_time;let time=new Array(0,0,0,0,0);if(second>=365*24*3600){time[0]=parseInt(second/(365*24*3600));second%=365*24*3600;}if(second>=24*3600){time[1]=parseInt(second/(24*3600));second%=24*3600;}if(second>=3600){time[2]=parseInt(second/3600);second%=3600;}if(second>=60){time[3]=parseInt(second/60);second%=60;}if(second>0){time[4]=second;}currentTimeHtml='本站已安全运行 '+time[0]+' 年 '+time[1]+' 天 '+time[2]+' 时 '+time[3]+' 分 '+time[4]+' 秒';document.getElementById("running-time").innerHTML=currentTimeHtml;},1000);</script></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1smxvwTGyUVgRTfci6s3TnrS-MdYXbMMI',
+      appKey: 'B1lcwzps04u451QtzT6ThlnD',
+      placeholder: '有没有什么想对我说的~~',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script><script src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><linkrel="stylesheet"href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css"><scriptsrc="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script><scriptsrc="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script><script async data-pjax src="/js/custom/floatpanel.js"></script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script src="/js/ip_content.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="/img/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+                        function butterfly_swiper_injector_config(){
+                          var parent_div_git = document.getElementById('recent-posts');
+                          var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/54657.html" alt=""><img width="48" height="48" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/hexo_logo.jpg" alt=""/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-20</span><a class="blog-slider__title" href="posts/54657.html" alt="">通过hexo-pdf插件在博客上发布pdf</a><div class="blog-slider__text">点击查看更多文章内容</div><a class="blog-slider__button" href="posts/54657.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/5538.html" alt=""><img width="48" height="48" alt=""/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-10</span><a class="blog-slider__title" href="posts/5538.html" alt="">Butterfly的外挂标签引入后写作技巧</a><div class="blog-slider__text">点击查看更多文章内容</div><a class="blog-slider__button" href="posts/5538.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/16107.html" alt=""><img width="48" height="48" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover7.jpg" alt=""/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-10</span><a class="blog-slider__title" href="posts/16107.html" alt="">Hello World</a><div class="blog-slider__text">点击查看更多文章内容</div><a class="blog-slider__button" href="posts/16107.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/63534.html" alt=""><img width="48" height="48" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg" alt=""/></a><div class="blog-slider__content"><span class="blog-slider__code">2021-07-10</span><a class="blog-slider__title" href="posts/63534.html" alt="">test</a><div class="blog-slider__text">点击查看更多文章内容</div><a class="blog-slider__button" href="posts/63534.html" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+                          console.log('已挂载butterfly_swiper')
+                          // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                          parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+                          }
+                        if( document.getElementById('recent-posts') && (location.pathname ==='all'|| 'all' ==='all')){
+                        butterfly_swiper_injector_config()
+                        }
+                      </script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.6/js/swiper.min.js"></script><script defer data-pjax src="https://cdn.jsdelivr.net/npm/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('wowpanels');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/hexo-butterfly-wowjs/lib/wow_init.min.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
