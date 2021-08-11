@@ -1,6 +1,6 @@
 @font-face {
     font-family:'arzhu';
-    src:url('/css/langmanqingshu.ttf'); /* �޸ĳ�������� */
+    src:url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/font/langmanqingshu.ttf'); /* �޸ĳ�������� */
     font-display:swap
 }
 h1#site-title {
