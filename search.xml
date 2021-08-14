@@ -76,7 +76,7 @@
       
       <categories>
           
-          <category> 搞懂链接器 </category>
+          <category> 编译器 </category>
           
       </categories>
       
@@ -101,7 +101,7 @@
       
       <categories>
           
-          <category> 搞懂链接器 </category>
+          <category> 编译器 </category>
           
       </categories>
       
@@ -126,7 +126,7 @@
       
       <categories>
           
-          <category> 搞懂链接器 </category>
+          <category> 编译器 </category>
           
       </categories>
       
@@ -151,7 +151,7 @@
       
       <categories>
           
-          <category> 搞懂链接器 </category>
+          <category> 编译器 </category>
           
       </categories>
       
@@ -176,7 +176,7 @@
       
       <categories>
           
-          <category> 博客美化 </category>
+          <category> 博客相关 </category>
           
       </categories>
       
@@ -242,19 +242,6 @@
     
     
     <entry>
-      <title>配置Hexo插入pdf</title>
-      <link href="/posts/232.html"/>
-      <url>/posts/232.html</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><div class="row">    <embed src="/file/LLDB-tutorial.pdf" width="100%" height="550" type="application/pdf"></div><div class="row">    <embed src="https://stujiangnaneducn-my.sharepoint.com/:b:/g/personal/hanxuliu_stu_jiangnan_edu_cn/Ee2K7PRSIMdPoJbPzIVH0W4B8Rn19vYXtegAlraFSEnY5Q?e=2KfoTM" width="100%" height="550" type="application/pdf"></div><div class="row">    <embed src="https://www.jianguoyun.com/p/DVw-0soQ5puACBiFooUE" width="100%" height="550" type="application/pdf"></div><div class="row">    <embed src="https://stujiangnaneducn-my.sharepoint.com/:b:/g/personal/hanxuliu_stu_jiangnan_edu_cn/EW05M9v_TzRGuboDPjWLDSEBEr-cuRyNVTEMHYZF-karMQ?e=PSpCYl" width="100%" height="550" type="application/pdf"></div><div class="row"><iframe src="https://drive.google.com/file/d/1f7SUryTot5zIH9puBm4Nczajyt_i5vo5/view?usp=sharing" style="width:100%; height:550px"></iframe></div><div class="row"><iframe src="https://drive.google.com/file/d/1f7SUryTot5zIH9puBm4Nczajyt_i5vo5/view" style="width:100%; height:550px"></iframe></div>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Butterfly的外挂标签引入后写作技巧</title>
       <link href="/posts/5538.html"/>
       <url>/posts/5538.html</url>
@@ -264,39 +251,14 @@
       
       <categories>
           
-          <category> 博客美化 </category>
+          <category> 博客相关 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Butterfly </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/posts/16107.html"/>
-      <url>/posts/16107.html</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 测试 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> test </tag>
+            <tag> Hexo </tag>
             
         </tags>
       
@@ -314,14 +276,14 @@
       
       <categories>
           
-          <category> Linux </category>
+          <category> 博客相关 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Linux命令 </tag>
+            <tag> Hexo </tag>
             
         </tags>
       
@@ -439,14 +401,14 @@
       
       <categories>
           
-          <category> 科学上网 </category>
+          <category> 其他 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> V2Ray </tag>
+            <tag> VPN </tag>
             
         </tags>
       
@@ -764,7 +726,7 @@
       
       <categories>
           
-          <category> Markdown </category>
+          <category> 博客相关 </category>
           
       </categories>
       
@@ -839,16 +801,10 @@
       
       <categories>
           
-          <category> 单片机 </category>
+          <category> 其他 </category>
           
       </categories>
       
-      
-        <tags>
-            
-            <tag> 单片机 </tag>
-            
-        </tags>
       
     </entry>
     
@@ -864,16 +820,10 @@
       
       <categories>
           
-          <category> 吃喝玩乐 </category>
+          <category> 其他 </category>
           
       </categories>
       
-      
-        <tags>
-            
-            <tag> 吃喝玩乐 </tag>
-            
-        </tags>
       
     </entry>
     
@@ -889,14 +839,14 @@
       
       <categories>
           
-          <category> 科学上网 </category>
+          <category> 其他 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Shadowsocks </tag>
+            <tag> VPN </tag>
             
         </tags>
       
@@ -914,14 +864,14 @@
       
       <categories>
           
-          <category> 科学上网 </category>
+          <category> 其他 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Shadowsocks </tag>
+            <tag> VPN </tag>
             
         </tags>
       
@@ -939,14 +889,14 @@
       
       <categories>
           
-          <category> 科学上网 </category>
+          <category> 其他 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Shadowsocks </tag>
+            <tag> VPN </tag>
             
         </tags>
       
@@ -964,7 +914,7 @@
       
       <categories>
           
-          <category> Markdown </category>
+          <category> 博客相关 </category>
           
       </categories>
       
@@ -989,7 +939,7 @@
       
       <categories>
           
-          <category> Markdown </category>
+          <category> 博客相关 </category>
           
       </categories>
       

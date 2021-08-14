@@ -3199,7 +3199,7 @@ ul.categoryBar-list {
 li.categoryBar-list-item {
   font-weight: bold;
   display: inline-block;
-  height: 180px !important;
+  height: 95px !important;
   margin: 5px 0.5% 0 0.5% !important;
   background-image: -webkit-linear-gradient(rgba(0,0,0,0.4) 25%, rgba(16,16,16,0) 100%);
   background-image: -moz-linear-gradient(rgba(0,0,0,0.4) 25%, rgba(16,16,16,0) 100%);
@@ -3207,7 +3207,7 @@ li.categoryBar-list-item {
   background-image: -ms-linear-gradient(rgba(0,0,0,0.4) 25%, rgba(16,16,16,0) 100%);
   background-image: linear-gradient(rgba(0,0,0,0.4) 25%, rgba(16,16,16,0) 100%);
   border-radius: 10px;
-  padding: 25px 0 25px 25px !important;
+  padding: 5px 0 5px 25px !important;
   -webkit-box-shadow: rgba(50,50,50,0.3) 50px 50px 50px 50px inset;
   box-shadow: rgba(50,50,50,0.3) 50px 50px 50px 50px inset;
   overflow: hidden;
@@ -3240,7 +3240,7 @@ a.categoryBar-list-link {
   font-size: 20px !important;
 }
 a.categoryBar-list-link::before {
-  content: '|' !important;
+  content: '' !important;
   color: #fff !important;
   font-size: 20px !important;
 }
@@ -3281,28 +3281,37 @@ span.categoryBar-list-count::after {
   right: -100%;
 }
 li.categoryBar-list-item:nth-child(1) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover1.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_git.jpg');
 }
 li.categoryBar-list-item:nth-child(2) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover2.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_linux.jpg');
 }
 li.categoryBar-list-item:nth-child(3) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_vim.png');
 }
 li.categoryBar-list-item:nth-child(4) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover4.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover1.jpg');
 }
 li.categoryBar-list-item:nth-child(5) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover5.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/hexo_logo.jpg');
 }
 li.categoryBar-list-item:nth-child(6) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover6.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_assem.jpg');
 }
 li.categoryBar-list-item:nth-child(7) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover7.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_os.jpg');
+}
+li.categoryBar-list-item:nth-child(8) {
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_gcc.jpg');
+}
+li.categoryBar-list-item:nth-child(9) {
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_computer.jpg');
+}
+li.categoryBar-list-item:nth-child(10) {
+  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_network.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {
-  content: '测试一下' !important;
+  content: !important;
 }
 li.categoryBar-list-item:nth-child(2)>span::after {
   content: !important;
@@ -3333,7 +3342,7 @@ li.categoryBar-list-item {
   }
 }
 .categoryBar-list {
-  max-height: 190px;
+  max-height: 760px;
   overflow: auto;
 }
 .categoryBar-list::-webkit-scrollbar {
@@ -3341,7 +3350,7 @@ li.categoryBar-list-item {
 }
 @media screen and (max-width: 650px) {
   .categoryBar-list {
-    max-height: 160px;
+    max-height: 640px;
   }
 }
 #post-comment .comment-head {
