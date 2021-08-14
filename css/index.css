@@ -3299,16 +3299,10 @@ li.categoryBar-list-item:nth-child(6) {
   background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_assem.jpg');
 }
 li.categoryBar-list-item:nth-child(7) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_os.jpg');
-}
-li.categoryBar-list-item:nth-child(8) {
   background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_gcc.jpg');
 }
-li.categoryBar-list-item:nth-child(9) {
+li.categoryBar-list-item:nth-child(8) {
   background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_computer.jpg');
-}
-li.categoryBar-list-item:nth-child(10) {
-  background: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/categoryBar_network.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {
   content: !important;
@@ -3317,18 +3311,6 @@ li.categoryBar-list-item:nth-child(2)>span::after {
   content: !important;
 }
 li.categoryBar-list-item:nth-child(3)>span::after {
-  content: !important;
-}
-li.categoryBar-list-item:nth-child(4)>span::after {
-  content: !important;
-}
-li.categoryBar-list-item:nth-child(5)>span::after {
-  content: !important;
-}
-li.categoryBar-list-item:nth-child(6)>span::after {
-  content: !important;
-}
-li.categoryBar-list-item:nth-child(7)>span::after {
   content: !important;
 }
 li.categoryBar-list-item {
