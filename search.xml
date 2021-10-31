@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>从零开始搭建个人博客或网站</title>
+      <link href="/posts/423ac30d.html"/>
+      <url>/posts/423ac30d.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="从零开始搭建个人博客或网站"><a href="#从零开始搭建个人博客或网站" class="headerlink" title="从零开始搭建个人博客或网站"></a>从零开始搭建个人博客或网站</h1><h2 id="一、安装git和node环境"><a href="#一、安装git和node环境" class="headerlink" title="一、安装git和node环境"></a>一、安装git和node环境</h2><p>1、下载版本管理工具git（官网下载地址<a href="https://git-scm.com/download/），安装时直接点击下一步，根据默认勾选进行安装即可。">https://git-scm.com/download/），安装时直接点击下一步，根据默认勾选进行安装即可。</a></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311026983.jpg" alt="img"></p><p>2、安装完 Git 后还需要进行全局配置。Git中必须配置全局用户名和邮箱后才能用。鼠标右击，选择Git Bash Here，输入下面两条命令（其中name填你的用户名，email填你的邮箱）：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure><br>3、下载nodejs（官网下载地址<a href="https://nodejs.org/en/），下载LTS版本即可（长期支持版），默认点击下一步安装即可。">https://nodejs.org/en/），下载LTS版本即可（长期支持版），默认点击下一步安装即可。</a></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311026472.jpg" alt="img"></p><p>4、打开cmd或powershell命令终端，分别输入git —version和node —version检查下是否安装成功，如果显示版本信息则说明安装成功。最后再查看下 npm 包管理器的版本（npm是随NodeJS一起安装的包管理器），以后主要通过npm来安装各种软件包。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311026196.jpg" alt="img"></p><h2 id="二、安装Hexo博客框架"><a href="#二、安装Hexo博客框架" class="headerlink" title="二、安装Hexo博客框架"></a>二、安装Hexo博客框架</h2><p>1、使用 npm 安装 Hexo，输入下面命令：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure><br>2、输入hexo —version查看版本信息，若显示如下图，则说明hexo环境安装成功。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025996.jpg" alt="img"></p><h2 id="三、开始搭建Hexo博客"><a href="#三、开始搭建Hexo博客" class="headerlink" title="三、开始搭建Hexo博客"></a>三、开始搭建Hexo博客</h2><p>1、 首先新建一个目录myblog，然后进入到该目录，以后的所有操作都是在该目录下进行。命令如下<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir myblog</span><br><span class="line">$ cd myblog</span><br></pre></td></tr></table></figure><br><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025003.jpg" alt="img"></p><p>2、对博客进行初始化并生成静态文件，命令如下：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br><span class="line">$ hexo generate（该命令可以简写为$ hexo g）</span><br></pre></td></tr></table></figure><br><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311026495.jpg" alt="img"></p><p>3、输入命令hexo server启动博客服务器，默认情况下，访问网址为： <a href="http://localhost:4000/。">http://localhost:4000/。</a></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311026008.jpeg" alt="img"></p><p>4、输入网址后，可以看到一个简单的网站雏形，到此Hexo个人博客或网站搭建完毕。另外，官网给出了很多炫丽花哨的博客主题模板，大家可以根据个人喜好换个主题，瞬间就高大上起来了。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311028644.jpg" alt="img"></p><p>官网提供了各种各样的主题模板，什么类型的都有，颜值质量都很高。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025177.jpg" alt="img"></p><p>这是我的博客美化后的效果，欢迎大家访问我的小站<a href="https://liupaopao.top/。">https://liupaopao.top/。</a></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025912.jpg" alt="img"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025976.jpg" alt="img"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025288.jpg" alt="img"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311025107.jpg" alt="img"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客相关 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>搭建个人免费稳定图床GitHub+jsDelivr+PicGo+Typora</title>
+      <link href="/posts/4169710f.html"/>
+      <url>/posts/4169710f.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="搭建个人免费稳定图床GitHub-jsDelivr-PicGo-Typora"><a href="#搭建个人免费稳定图床GitHub-jsDelivr-PicGo-Typora" class="headerlink" title="搭建个人免费稳定图床GitHub+jsDelivr+PicGo+Typora"></a>搭建个人免费稳定图床GitHub+jsDelivr+PicGo+Typora</h1><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104520.gif" alt="IMG_256"></p><p>搭建完个人博客以后，写文章的时候就不可避免需要插入图片，于是就需要使用图床工具把本地图片转换成网络图片再把图片链接分享出来。市面上的图床工具非常多，但很多都需要收费，有些免费的也存在着不稳定的风险。现在有一种基于GitHub和jsDelivr加速的免费图床。PicGo是一个用于快速上传图片并获取图片 URL 链接的工具，支持多个图床进行使用，其中当然包括我们现在使用的GitHub图床了，它同时支持Windows、macOS、Linux平台。GitHub和jsDelivr都是大厂，不用担心跑路问题，也不用担心速度和容量问题，而且完全开源免费，再结合Typora编辑器，书写markdown格式文章，简直效率神器，快来根据下面教程搭建个人的免费稳定图床吧！ </p><h2 id="一、新建GitHub图床仓库"><a href="#一、新建GitHub图床仓库" class="headerlink" title="一、新建GitHub图床仓库"></a>一、新建GitHub图床仓库</h2><ol><li>登录GitHub账户，没有的话就注册下，然后新建GitHub仓库。</li></ol><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104523.jpg" alt="img"></p><p>2、填写仓库名【CDN1】，勾选上【Public】和【Add a README file】，最后点击创建。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311107307.jpg" alt="Snipaste_2021-10-24_15-30-47"></p><p>3、创建GitHub中的Token(令牌)</p><p>点击右上角头像，选中头像列表中的【Settings】，进入【Settings】，点击【Developer Settings】，再点击【<a href="https://github.com/settings/tokens">Personal access tokens</a>】，接着点击【Generate new token】。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311107067.jpg" alt="img"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311107725.jpg" alt="img"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311107888.jpg" alt="img"></p><p>在Note中取一个名字，选中repo这个框过后直接点击完成（Generate token）</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311107110.jpg" alt="img"></p><p>最后生成token，记住这个令牌一定要复制保存，建议保存到记事本里，如果没有保存的需要删除重来一遍。</p><h2 id="二、配置PicGo"><a href="#二、配置PicGo" class="headerlink" title="二、配置PicGo"></a>二、配置PicGo</h2><p>1、安装PicGo</p><p>下载地址 <a href="https://github.com/Molunerfinn/PicGo/releases">https://github.com/Molunerfinn/PicGo/releases</a> ，选择下载与系统匹配的安装包，根据默认勾选安装即可。</p><p>2、打开PicGo，配置图床</p><p>设定仓库名：按照【GitHub用户名/图床仓库名】的格式填写</p><p>设定分支名：【main】</p><p>设定Token：粘贴GitHub生成的【Token】</p><p>指定存储路径：默认路径为【img/】，图片将会储存在此文件夹中，而我改成了img/2021/。</p><p>设定自定义域名：它的的作用是，在图片上传后，PicGo会按照【自定义域名+上传的图片名】的方式生成访问链接，放到粘贴板上，因为我们要使用jsDelivr加速访问，所以可以设置为【<a href="https://cdn.jsdelivr.net/gh/用户名/图床仓库名】">https://cdn.jsdelivr.net/gh/用户名/图床仓库名】</a></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104577.jpg" alt="2"></p><p>3、进入PicGo设置，打开时间戳重命名，避免因图片重名而导致上传失败。</p><p><img src="C:/Users/ADMINI~1/AppData/Local/Temp/msohtmlclip1/01/clip_image018.jpg" alt="3"></p><p>4、可以打开上传区测试一下，选择URL的图片链接格式，上传完图片后复制链接，直接再浏览器打开就能看到了。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104927.jpg" alt="4"></p><h2 id="三、配置typora"><a href="#三、配置typora" class="headerlink" title="三、配置typora"></a>三、配置typora</h2><p>1、下载typora：<a href="https://typora.io/">https://typora.io/</a></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104776.jpeg" alt="111"></p><p>2、打开【文件】中【偏好设置】，选择【图像】，根据图片中配置进行勾选。最后再找到PicGo软件的安装位置，可以上传验证测试下，默认会上传typora图标。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104208.jpg" alt="01"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104756.jpg" alt="02"><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104944.jpg" alt="03"></p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202110311104504.jpg" alt="04"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客相关 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Markdown </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>龙芯服务器重装UOS系统+搭建本地仓库源</title>
       <link href="/posts/e8c622c9.html"/>
       <url>/posts/e8c622c9.html</url>
@@ -54,19 +104,6 @@
           <category> Linux </category>
           
       </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>guitar</title>
-      <link href="/posts/423ac30d.html"/>
-      <url>/posts/423ac30d.html</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
-      
       
       
     </entry>
@@ -857,8 +894,8 @@
     
     <entry>
       <title>Typora+Picgo+Gitee构建网络图床笔记</title>
-      <link href="/posts/39245.html"/>
-      <url>/posts/39245.html</url>
+      <link href="/posts/80f1815e.html"/>
+      <url>/posts/80f1815e.html</url>
       
         <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p><strong>前言</strong></p><p>之前一直在Typora上记录自己的笔记，但是发现markdown格式的笔记在插入图片时，仅能采用两种方法：1）在线图床，2）本地路径，即图片并不是像Word那样集成在文档内的，因此经过一番研究，发现了最新版的Typora已经支持在线图床功能，遂写此篇教程帮助后人构建自己的在线图床markdown笔记。</p><h2 id="所需软件"><a href="#所需软件" class="headerlink" title="所需软件"></a><strong>所需软件</strong></h2><p>typora</p><p><a href="https://link.zhihu.com/?target=https%3A//typora.io/">https://typora.io/</a></p><p>picgo</p><p><a href="https://link.zhihu.com/?target=https%3A//github.com/Molunerfinn/PicGo/releases">https://github.com/Molunerfinn/PicGo/releases</a></p><p>建议选择2.2.2正式版本，beta版本可能会存在不稳定的风险。</p><p><img src="https://pic3.zhimg.com/80/v2-be88c425ba401a71e9c91dca74f0d262_720w.jpg" alt="img"></p><p>Gitee</p><p>由于国内连接github时网络偶尔存在不稳定的情况，于是采用了gitee作为github图床的替代，但整体教程是一样的</p><p><a href="https://link.zhihu.com/?target=https%3A//gitee.com/">https://gitee.com/</a></p><p><img src="https://pic3.zhimg.com/80/v2-daba73811b87533f8f032169d3d11d9a_720w.png" alt="img"></p><h2 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a><strong>具体操作</strong></h2><p>主要是分为两部分操作，第一部分是Typora的配置，第二部分是Picgo+Gitee的在线图床配置</p><h3 id="Typora配置"><a href="#Typora配置" class="headerlink" title="Typora配置"></a><strong>Typora配置</strong></h3><p>打开Typora后，点击菜单栏-文件-偏好设置</p><p>找到其中的“图像”设置，将其设置为如下内容</p><p><img src="https://pic3.zhimg.com/80/v2-f374bec8d90d87c2f7683c1133064166_720w.jpg" alt="img"></p><p>1）<strong>插入图片时…</strong>下边的选择框内选择<strong>上传图片</strong></p><p>2）勾选上“<strong>对本地位置的图片应用上述规则</strong>”</p><p>3）上传服务选择<strong>PicGo(app)</strong></p><p>4）将<strong>PicGo路径</strong>项设置为本地PicGo的安装路径</p><p>这样，我们就把Typora配置好了，下面我们进行PicGo+Gitee的网络图床构建</p><h3 id="网络图床配置"><a href="#网络图床配置" class="headerlink" title="网络图床配置"></a><strong>网络图床配置</strong></h3><p>首先，安装好PicGo之后，我们需要给PicGo配置插件以支持Gitee图床</p><p><strong>注意</strong>：你必须安装<a href="https://link.zhihu.com/?target=https%3A//nodejs.org/en/">Node.js</a>之后才能安装PicGo的插件，因为PicGo要使用<code>npm</code>来安装插件。</p><p>安装好Nodejs后，点开左边的<strong>插件设置</strong>一栏，在输入框内输入“github plus”，如下</p><p><img src="https://pic1.zhimg.com/80/v2-270b499aeadae15d014215b32b1204c8_720w.jpg" alt="img"></p><p>点击安装此插件，之后左侧选项栏<strong>图床设置</strong>会多一个<strong>githubplus</strong></p><p><img src="https://pic1.zhimg.com/80/v2-1fd1e0c2ef8c48f1d85a5a04b8566714_720w.png" alt="img"></p><p>接下来我们配置Gitee仓库以存储图片</p><p>1）进入<a href="https://link.zhihu.com/?target=https%3A//gitee.com/">https://gitee.com/</a>，没有账号的话，先注册账号，注册以后登录，新建一个<strong>公开仓库</strong>，名字为picgo（可以自己起其他名字）</p><p>2）点击右上角，进入<strong>设置</strong>，在左侧的<strong>安全设置-私人令牌</strong>处生成新令牌。（注意：生成的新令牌只会显示一次，一定要保存好！！！）</p><p>我们需要做的如下：</p><p>1）回到picgo，按照如下进行设置</p><p><img src="https://pic3.zhimg.com/80/v2-dceba8a3986c7df4dbc3f8cb1e8ca60e_720w.jpg" alt="img"></p><p>其中的repo为 <strong>UserName/仓库名称</strong> 格式</p><p>branch填入master</p><p>Token为刚才在Gitee生成的私人令牌，粘贴到这里就行</p><p>path为仓库下用于存储图片的路径，这个可以自行选择</p><p>最下边的origin部分选择gitee（默认是github）</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a><strong>结束</strong></h2><p>经过上述操作，我们就把typora+picgo+gitee成功配置好了，之后当我们将本地的图片粘贴到markdown文档内的时候，typora会自动将图片上传到刚才我们配置好的gitee仓库内，并自动把markdown文档内的本地路径转化为gitee的图片外链，便于我们以后进行多端访问文档内的图片。</p>]]></content>
       
