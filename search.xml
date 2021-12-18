@@ -4,6 +4,81 @@
   
     
     <entry>
+      <title>vim中统计字符串出现的次数</title>
+      <link href="/posts/dcedac78.html"/>
+      <url>/posts/dcedac78.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>vim中统计字符串出现的次数</p><p><strong>关键命令：</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/pattern//gn</span><br></pre></td></tr></table></figure><p>参数说明：</p><p> % ：指明操作区间，%表示全文本；可以使用1,$或者行区间代替</p><p> s：substitute，表示替换</p><p> pattern：要查找的字符串</p><p> //：替代文本应该放在这里，两个斜杠中间没有任何字符表示无替代文本</p><p> g：替换该行所有出现的字符串，如果没有该参数则只替换该行第一次出现的地方</p><p> n：表示匹配的行数</p><p><strong>进一步扩展：</strong></p><p>统计k行到l行出现pattern的次数：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:k,ls/pattern//gn</span><br></pre></td></tr></table></figure><p>统计在当前编辑文本出现的次数：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/pattern//gn</span><br></pre></td></tr></table></figure><p>统计在文件中出现的行数：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file|greg –i pattern |wc –l</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Vim </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vim </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>解决vim中鼠标选中不能复制</title>
+      <link href="/posts/bc41595b.html"/>
+      <url>/posts/bc41595b.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p>vim中鼠标选中不能复制并进入可视模式，习惯了在vim中鼠标选中即复制的效果，对此问题从网上查了下发现是vim的默认配置导致的。</p><h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><ol><li>修改 vim 的默认配置文件<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/share/vim/vim81/defaults.vim</span><br></pre></td></tr></table></figure></li><li><p>输入 <code>/mouse</code> 搜索关键词 <code>mouse</code> ，定位到下面位置</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if has(&#x27;mouse&#x27;)</span><br><span class="line">set mouse=a</span><br><span class="line">endif</span><br></pre></td></tr></table></figure><p>将 <code>set mouse=a</code> 改为 <code>set mouse-=a</code>（在等号前面加上一个减号）</p></li><li><p>输入 <code>:wq!</code> 保存即可解决问题。</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Vim </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vim </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vim中同一窗口操作多个文件</title>
+      <link href="/posts/f3677974.html"/>
+      <url>/posts/f3677974.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="1、vim-同时打开两个文件并分割窗口"><a href="#1、vim-同时打开两个文件并分割窗口" class="headerlink" title="1、vim 同时打开两个文件并分割窗口"></a>1、vim 同时打开两个文件并分割窗口</h2><p>上下分割：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim -o filename1 filename2  </span><br></pre></td></tr></table></figure><br>左右分割：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim -O filename1 filename2</span><br></pre></td></tr></table></figure></p><h2 id="2、vim-已打开一个文件，同时再打开另一个文件"><a href="#2、vim-已打开一个文件，同时再打开另一个文件" class="headerlink" title="2、vim 已打开一个文件，同时再打开另一个文件"></a>2、vim 已打开一个文件，同时再打开另一个文件</h2><p>上下分割：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:vs filename</span><br></pre></td></tr></table></figure><br>左右分割：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:sp filename</span><br></pre></td></tr></table></figure></p><blockquote><p>其中，vs可以用vsplit替换，sp可以用split替换。<br>如果finename不存在，则会新建该文件并打开。</p></blockquote><h2 id="3、vim-切换窗口"><a href="#3、vim-切换窗口" class="headerlink" title="3、vim 切换窗口"></a>3、vim 切换窗口</h2><p>先<code>ctrl + w</code>开启窗口切换后，再选择按上下左右键进行跳转：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctrl + w w  // 即按住ctrl键，再按两下w键。或者ctrl + w &lt;h|j|k|l&gt;</span><br></pre></td></tr></table></figure></p><blockquote><p>即按住ctrl键，按一次w键，再按一次表示方向的h或j或k或l，则光标会切换到当前窗口的 左｜下｜上｜右 侧的窗口。</p></blockquote><h2 id="4、关闭-vim-窗口"><a href="#4、关闭-vim-窗口" class="headerlink" title="4、关闭 vim 窗口"></a>4、关闭 vim 窗口</h2><p>关闭光标所在的窗口：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:q</span><br></pre></td></tr></table></figure><br>关闭所有窗口：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:qa</span><br></pre></td></tr></table></figure><br>关闭除光标所在的窗口之外的其他窗口：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:only</span><br></pre></td></tr></table></figure></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Vim </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vim </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>读书笔记-《编码：隐匿在计算机软硬件背后的语言》</title>
       <link href="/posts/36fffd2c.html"/>
       <url>/posts/36fffd2c.html</url>
