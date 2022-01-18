@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>如何在Ubuntu20.04上安装和配置Nextcloud</title>
+      <link href="/posts/b53da12e.html"/>
+      <url>/posts/b53da12e.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>如何将Nextcloud挂载到本地目录</title>
+      <link href="/posts/121d06ee.html"/>
+      <url>/posts/121d06ee.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="添加网络位置"><a href="#添加网络位置" class="headerlink" title="添加网络位置"></a>添加网络位置</h2><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202201181736445.png" alt="01"></p><h2 id="输入WebDAV地址"><a href="#输入WebDAV地址" class="headerlink" title="输入WebDAV地址"></a>输入WebDAV地址</h2><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202201181737498.png" alt="02"></p><p>WebDAV的地址从网页登录获取</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202201181738898.png" alt="06"></p><h2 id="输入Nextcloud账号和密码"><a href="#输入Nextcloud账号和密码" class="headerlink" title="输入Nextcloud账号和密码"></a>输入Nextcloud账号和密码</h2><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202201181738403.png" alt="03"></p><p>这里可以将网络位置重命名为Nextcloud</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202201181738541.png" alt="04"></p><p>接下来就能看到我的电脑里面多了一个盘，进去后就能看到Nextcloud网盘里的文件了。</p><p><img src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/img/2021/202201181738555.png" alt="05"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 其他 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Nextcloud </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vim中统计字符串出现的次数</title>
       <link href="/posts/dcedac78.html"/>
       <url>/posts/dcedac78.html</url>
