@@ -56,69 +56,6 @@
   </url>
   
   <url>
-    <loc>https://liu-hanxu.github.io/myHTML/slide_photo/index6.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/slide_photo/index5.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/slide_photo/index4.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/slide_photo/index3.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/slide_photo/index.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/slide_photo/index2.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/cube_photo/index.html</loc>
-    
-    <lastmod>2022-02-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://liu-hanxu.github.io/posts/63534.html</loc>
     
     <lastmod>2022-02-10</lastmod>
@@ -515,51 +452,6 @@
   </url>
   
   <url>
-    <loc>https://liu-hanxu.github.io/myHTML/saylove/index.html</loc>
-    
-    <lastmod>2021-07-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/code_editor/index.html</loc>
-    
-    <lastmod>2021-07-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/calendar/index.html</loc>
-    
-    <lastmod>2021-07-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/watch_spaceman/index.html</loc>
-    
-    <lastmod>2021-07-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/myHTML/date/index.html</loc>
-    
-    <lastmod>2021-07-15</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://liu-hanxu.github.io/posts/45531.html</loc>
     
     <lastmod>2021-07-14</lastmod>
@@ -722,14 +614,14 @@
   </url>
   
   <url>
-    <loc>https://liu-hanxu.github.io/tags/Linux%E5%91%BD%E4%BB%A4/</loc>
+    <loc>https://liu-hanxu.github.io/tags/Hexo/</loc>
     <lastmod>2022-06-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://liu-hanxu.github.io/tags/Hexo/</loc>
+    <loc>https://liu-hanxu.github.io/tags/Linux%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2022-06-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
