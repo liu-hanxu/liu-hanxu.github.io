@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>�ײ�V2Rayһ����װ�ű�</title>
+      <link href="/posts/7c0fdc31.html"/>
+      <url>/posts/7c0fdc31.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="V2Ray-һ����װ�u�"><a href="#V2Ray-һ����װ�u�" class="headerlink" title="V2Ray һ����װ�ű�"></a>V2Ray һ����װ�ű�</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -s -L https://git.io/v2ray.sh)</span><br></pre></td></tr></table></figure><h2 id="��װ�ɹ����"><a href="#��װ�ɹ����" class="headerlink" title="��װ�ɹ����"></a>��װ�ɹ����</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">---------- V2Ray ������Ϣ -------------</span><br><span class="line"></span><br><span class="line"> ��ַ (Address) = 173.82.xx.xx</span><br><span class="line"></span><br><span class="line"> �˿� (Port) = 60036</span><br><span class="line"></span><br><span class="line"> �û�ID (User ID / UUID) = dcc3c5xxxxx-xxxxxxxxxx</span><br><span class="line"></span><br><span class="line"> ����ID (Alter Id) = 0</span><br><span class="line"></span><br><span class="line"> ����Э�� (Network) = tcp</span><br><span class="line"></span><br><span class="line"> αװ���� (header type) = none</span><br><span class="line"></span><br><span class="line">---------- END -------------</span><br><span class="line"></span><br><span class="line">V2Ray �ͻ���ʹ�ý̳�: https://233v2.com/post/4/</span><br><span class="line"></span><br><span class="line">��ʾ: ����  v2ray url  ������ vmess URL ���� / ����  v2ray qr  �����ɶ�ά������</span><br><span class="line"></span><br><span class="line">�ⱻǽ..�Ƽ�ʹ��JMS: https://getjms.com</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> ���� </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> V2Ray </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vim速查图_中英文版</title>
       <link href="/posts/6c0adc53.html"/>
       <url>/posts/6c0adc53.html</url>
