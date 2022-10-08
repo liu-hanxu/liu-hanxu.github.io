@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux 的启动流程 | 跑跑的小屋</title><meta name="keywords" content="Linux"><meta name="author" content="paopao"><meta name="copyright" content="paopao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Linux 的启动流程作者： 阮一峰 日期： 2013 年 8 月 17 日 半年前，我写了《计算机是如何启动的？》，探讨 BIOS 和主引导记录的作用。 那篇文章不涉及操作系统，只与主板的板载程序有关。今天，我想接着往下写，探讨操作系统接管硬件以后发生的事情，也就是操作系统的启动流程。  这个部分比较有意思。因为在 BIOS 阶段，计算机的行为基本上被写死了，程序员可以做的事情并不多；但是，一旦">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 的启动流程">
+<meta property="og:url" content="https://liu-hanxu.github.io/posts/59504.html">
+<meta property="og:site_name" content="跑跑的小屋">
+<meta property="og:description" content="Linux 的启动流程作者： 阮一峰 日期： 2013 年 8 月 17 日 半年前，我写了《计算机是如何启动的？》，探讨 BIOS 和主引导记录的作用。 那篇文章不涉及操作系统，只与主板的板载程序有关。今天，我想接着往下写，探讨操作系统接管硬件以后发生的事情，也就是操作系统的启动流程。  这个部分比较有意思。因为在 BIOS 阶段，计算机的行为基本上被写死了，程序员可以做的事情并不多；但是，一旦">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg">
+<meta property="article:published_time" content="2021-06-10T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-14T14:43:07.203Z">
+<meta property="article:author" content="paopao">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://liu-hanxu.github.io/posts/59504"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux 的启动流程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-14 22:43:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="/css/myfont.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/gotop.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.min.css" media="defer" onload="this.media='all'"><script async src="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus@latest/lib/carousel-touch.min.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-clock"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fas fa-guitar"></i><span> 爱好</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://hanxuliu.github.io/paopao-games/"><i class="fa-fw fas fa-code"></i><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> LOVE</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/pphh/lovetimeline/"><i class="fa-fw fas fa-fan"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/myHTML/date/index.html"><i class="fa-fw fas fa-calendar-day"></i><span> 纪念日</span></a></li><li><a class="site-page child" href="/pphh/100todos/"><i class="fa-fw far fa-calendar-check"></i><span> 100件事</span></a></li><li><a class="site-page child" href="/myHTML/saylove/index.html"><i class="fa-fw fas fa-kiss-wink-heart"></i><span> 为爱表白</span></a></li><li><a class="site-page child" href="/myHTML/cube_photo/index.html"><i class="fa-fw fas fa-cube"></i><span> 魔方相册</span></a></li><li><a class="site-page child" href="/myHTML/slide_photo/index.html"><i class="fa-fw fas fa-images"></i><span> 滑动相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-user-astronaut"></i><span> 其他</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-user"></i><span> 作者</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">跑跑的小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-clock"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fas fa-guitar"></i><span> 爱好</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://hanxuliu.github.io/paopao-games/"><i class="fa-fw fas fa-code"></i><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> LOVE</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/pphh/lovetimeline/"><i class="fa-fw fas fa-fan"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/myHTML/date/index.html"><i class="fa-fw fas fa-calendar-day"></i><span> 纪念日</span></a></li><li><a class="site-page child" href="/pphh/100todos/"><i class="fa-fw far fa-calendar-check"></i><span> 100件事</span></a></li><li><a class="site-page child" href="/myHTML/saylove/index.html"><i class="fa-fw fas fa-kiss-wink-heart"></i><span> 为爱表白</span></a></li><li><a class="site-page child" href="/myHTML/cube_photo/index.html"><i class="fa-fw fas fa-cube"></i><span> 魔方相册</span></a></li><li><a class="site-page child" href="/myHTML/slide_photo/index.html"><i class="fa-fw fas fa-images"></i><span> 滑动相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-user-astronaut"></i><span> 其他</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-user"></i><span> 作者</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux 的启动流程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-10T10:00:00.000Z" title="发表于 2021-06-10 18:00:00">2021-06-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-07-14T14:43:07.203Z" title="更新于 2021-07-14 22:43:07">2021-07-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux 的启动流程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Linux-的启动流程"><a href="#Linux-的启动流程" class="headerlink" title="Linux 的启动流程"></a>Linux 的启动流程</h1><p>作者： <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com">阮一峰</a></p>
+<p>日期： <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2013/08/">2013 年 8 月 17 日</a></p>
+<p>半年前，我写了<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2013/02/booting.html">《计算机是如何启动的？》</a>，探讨 BIOS 和主引导记录的作用。</p>
+<p>那篇文章不涉及操作系统，只与主板的板载程序有关。今天，我想接着往下写，探讨操作系统接管硬件以后发生的事情，也就是操作系统的启动流程。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081701.png" alt=""></p>
+<p>这个部分比较有意思。因为在 BIOS 阶段，计算机的行为基本上被写死了，程序员可以做的事情并不多；但是，一旦进入操作系统，程序员几乎可以定制所有方面。所以，这个部分与程序员的关系更密切。</p>
+<p>我主要关心的是 Linux 操作系统，它是目前服务器端的主流操作系统。下面的内容针对的是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Debian">Debian</a>发行版，因为我对其他发行版不够熟悉。</p>
+<p><strong>第一步、加载内核</strong></p>
+<p>操作系统接管硬件以后，首先读入 /boot 目录下的内核文件。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081702.png" alt=""></p>
+<p>以我的电脑为例，/boot 目录下面大概是这样一些文件：</p>
+<blockquote>
+<pre><code>　　$ ls /boot
+　　
+　　config-3.2.0-3-amd64
+　　config-3.2.0-4-amd64
+　　grub
+　　initrd.img-3.2.0-3-amd64
+　　initrd.img-3.2.0-4-amd64
+　　System.map-3.2.0-3-amd64
+　　System.map-3.2.0-4-amd64
+　　vmlinuz-3.2.0-3-amd64
+　　vmlinuz-3.2.0-4-amd64
+</code></pre></blockquote>
+<p><strong>第二步、启动初始化进程</strong></p>
+<p>内核文件加载以后，就开始运行第一个程序 /sbin/init，它的作用是初始化系统环境。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081703.png" alt=""></p>
+<p>由于 init 是第一个运行的程序，它的进程编号（pid）就是 1。其他所有进程都从它衍生，都是它的子进程。</p>
+<p><strong>第三步、确定运行级别</strong></p>
+<p>许多程序需要开机启动。它们在 Windows 叫做”服务”（service），在 Linux 就叫做”<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B">守护进程</a>“（daemon）。</p>
+<p>init 进程的一大任务，就是去运行这些开机启动的程序。但是，不同的场合需要启动不同的程序，比如用作服务器时，需要启动 Apache，用作桌面就不需要。Linux 允许为不同的场合，分配不同的开机启动程序，这就叫做”<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB">运行级别</a>“（runlevel）。也就是说，启动时根据”运行级别”，确定要运行哪些程序。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081704.png" alt=""></p>
+<p>Linux 预置七种运行级别（0-6）。一般来说，0 是关机，1 是单用户模式（也就是维护模式），6 是重启。运行级别 2-5，各个发行版不太一样，对于 Debian 来说，都是同样的多用户模式（也就是正常模式）。</p>
+<p>init 进程首先读取文件 /etc/inittab，它是运行级别的设置文件。如果你打开它，可以看到第一行是这样的：</p>
+<blockquote>
+<pre><code>　　　　id:2:initdefault:
+</code></pre></blockquote>
+<p>initdefault 的值是 2，表明系统启动时的运行级别为 2。如果需要指定其他级别，可以手动修改这个值。</p>
+<p>那么，运行级别 2 有些什么程序呢，系统怎么知道每个级别应该加载哪些程序呢？……回答是每个运行级别在/etc 目录下面，都有一个对应的子目录，指定要加载的程序。</p>
+<blockquote>
+<pre><code>　　/etc/rc0.d
+　　/etc/rc1.d
+　　/etc/rc2.d
+　　/etc/rc3.d
+　　/etc/rc4.d
+　　/etc/rc5.d
+　　/etc/rc6.d
+</code></pre></blockquote>
+<p>上面目录名中的”rc”，表示 run command（运行程序），最后的 d 表示 directory（目录）。下面让我们看看 /etc/rc2.d 目录中到底指定了哪些程序。</p>
+<blockquote>
+<pre><code>　　$ ls  /etc/rc2.d
+　　
+　　README
+　　S01motd
+　　S13rpcbind
+　　S14nfs-common
+　　S16binfmt-support
+　　S16rsyslog
+　　S16sudo
+　　S17apache2
+　　S18acpid
+　　...
+</code></pre></blockquote>
+<p>可以看到，除了第一个文件 README 以外，其他文件名都是”字母 S+两位数字+程序名”的形式。字母 S 表示 Start，也就是启动的意思（启动脚本的运行参数为 start），如果这个位置是字母 K，就代表 Kill（关闭），即如果从其他运行级别切换过来，需要关闭的程序（启动脚本的运行参数为 stop）。后面的两位数字表示处理顺序，数字越小越早处理，所以第一个启动的程序是 motd，然后是 rpcbing、nfs……数字相同时，则按照程序名的字母顺序启动，所以 rsyslog 会先于 sudo 启动。</p>
+<p>这个目录里的所有文件（除了 README），就是启动时要加载的程序。如果想增加或删除某些程序，不建议手动修改 /etc/rcN.d 目录，最好是用一些专门命令进行管理（参考<a target="_blank" rel="noopener" href="http://www.debianadmin.com/manage-linux-init-or-startup-scripts.html">这里</a>和<a target="_blank" rel="noopener" href="http://www.debianadmin.com/remove-unwanted-startup-files-or-services-in-debian.html">这里</a>）。</p>
+<p><strong>第四步、加载开机启动程序</strong></p>
+<p>前面提到，七种预设的”运行级别”各自有一个目录，存放需要开机启动的程序。不难想到，如果多个”运行级别”需要启动同一个程序，那么这个程序的启动脚本，就会在每一个目录里都有一个拷贝。这样会造成管理上的困扰：如果要修改启动脚本，岂不是每个目录都要改一遍？</p>
+<p>Linux 的解决办法，就是七个 /etc/rcN.d 目录里列出的程序，都设为链接文件，指向另外一个目录 /etc/init.d ，真正的启动脚本都统一放在这个目录中。init 进程逐一加载开机启动程序，其实就是运行这个目录里的启动脚本。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081705.png" alt=""></p>
+<p>下面就是链接文件真正的指向。</p>
+<blockquote>
+<pre><code>　　$ ls -l /etc/rc2.d
+　　
+　　README
+　　S01motd -&gt; ../init.d/motd
+　　S13rpcbind -&gt; ../init.d/rpcbind
+　　S14nfs-common -&gt; ../init.d/nfs-common
+　　S16binfmt-support -&gt; ../init.d/binfmt-support
+　　S16rsyslog -&gt; ../init.d/rsyslog
+　　S16sudo -&gt; ../init.d/sudo
+　　S17apache2 -&gt; ../init.d/apache2
+　　S18acpid -&gt; ../init.d/acpid
+　　...
+</code></pre></blockquote>
+<p>这样做的另一个好处，就是如果你要手动关闭或重启某个进程，直接到目录 /etc/init.d 中寻找启动脚本即可。比如，我要重启 Apache 服务器，就运行下面的命令：</p>
+<blockquote>
+<pre><code>　　　　$ sudo /etc/init.d/apache2 restart
+</code></pre></blockquote>
+<p>/etc/init.d 这个目录名最后一个字母 d，是 directory 的意思，表示这是一个目录，用来与程序 /etc/init 区分。</p>
+<p><strong>第五步、用户登录</strong></p>
+<p>开机启动程序加载完毕以后，就要让用户登录了。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081706.png" alt=""></p>
+<p>一般来说，用户的登录方式有三种：</p>
+<blockquote>
+<p>（1）命令行登录</p>
+<p>（2）ssh 登录</p>
+<p>（3）图形界面登录</p>
+</blockquote>
+<p>这三种情况，都有自己的方式对用户进行认证。</p>
+<p>（1）命令行登录：init 进程调用 getty 程序（意为 get teletype），让用户输入用户名和密码。输入完成后，再调用 login 程序，核对密码（Debian 还会再多运行一个身份核对程序/etc/pam.d/login）。如果密码正确，就从文件 /etc/passwd 读取该用户指定的 shell，然后启动这个 shell。</p>
+<p>（2）ssh 登录：这时系统调用 sshd 程序（Debian 还会再运行/etc/pam.d/ssh ），取代 getty 和 login，然后启动 shell。</p>
+<p>（3）图形界面登录：init 进程调用显示管理器，Gnome 图形界面对应的显示管理器为 gdm（GNOME Display Manager），然后用户输入用户名和密码。如果密码正确，就读取/etc/gdm3/Xsession，启动用户的会话。</p>
+<p><strong>第六步、进入 login shell</strong></p>
+<p>所谓 shell，简单说就是命令行界面，让用户可以直接与操作系统对话。用户登录时打开的 shell，就叫做 login shell。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081707.png" alt=""></p>
+<p>Debian 默认的 shell 是<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/Bash">Bash</a>，它会读入一系列的配置文件。上一步的三种情况，在这一步的处理，也存在差异。</p>
+<p>（1）命令行登录：首先读入 /etc/profile，这是对所有用户都有效的配置；然后依次寻找下面三个文件，这是针对当前用户的配置。</p>
+<blockquote>
+<pre><code>　　~/.bash_profile
+　　~/.bash_login
+　　~/.profile
+</code></pre></blockquote>
+<p>需要注意的是，这三个文件只要有一个存在，就不再读入后面的文件了。比如，要是 ~/.bash_profile 存在，就不会再读入后面两个文件了。</p>
+<p>（2）ssh 登录：与第一种情况完全相同。</p>
+<p>（3）图形界面登录：只加载 /etc/profile 和 ~/.profile。也就是说，~/.bash_profile 不管有没有，都不会运行。</p>
+<p><strong>第七步，打开 non-login shell</strong></p>
+<p>老实说，上一步完成以后，Linux 的启动过程就算结束了，用户已经可以看到命令行提示符或者图形界面了。但是，为了内容的完整，必须再介绍一下这一步。</p>
+<p>用户进入操作系统以后，常常会再手动开启一个 shell。这个 shell 就叫做 non-login shell，意思是它不同于登录时出现的那个 shell，不读取/etc/profile 和.profile 等配置文件。</p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201308/bg2013081708.png" alt=""></p>
+<p>non-login shell 的重要性，不仅在于它是用户最常接触的那个 shell，还在于它会读入用户自己的 bash 配置文件 ~/.bashrc。大多数时候，我们对于 bash 的定制，都是写在这个文件里面的。</p>
+<p>你也许会问，要是不进入 non-login shell，岂不是.bashrc 就不会运行了，因此 bash 也就不能完成定制了？事实上，Debian 已经考虑到这个问题了，请打开文件 ~/.profile，可以看到下面的代码：</p>
+<blockquote>
+<pre><code>　　if [ -n &quot;$BASH_VERSION&quot; ]; then
+　　　　if [ -f &quot;$HOME/.bashrc&quot; ]; then
+　　　　　　. &quot;$HOME/.bashrc&quot;
+　　　　fi
+　　fi
+</code></pre></blockquote>
+<p>上面代码先判断变量 $BASH_VERSION 是否有值，然后判断主目录下是否存在 .bashrc 文件，如果存在就运行该文件。第三行开头的那个点，是 source 命令的简写形式，表示运行某个文件，写成”source ~/.bashrc”也是可以的。</p>
+<p>因此，只要运行～/.profile 文件，～/.bashrc 文件就会连带运行。但是上一节的第一种情况提到过，如果存在～/.bash_profile 文件，那么有可能不会运行～/.profile 文件。解决这个问题很简单，把下面代码写入.bash_profile 就行了。</p>
+<blockquote>
+<pre><code>　　if [ -f ~/.profile ]; then
+　　　　. ~/.profile
+　　fi
+</code></pre></blockquote>
+<p>这样一来，不管是哪种情况，.bashrc 都会执行，用户的设置可以放心地都写入这个文件了。</p>
+<p>Bash 的设置之所以如此繁琐，是由于历史原因造成的。早期的时候，计算机运行速度很慢，载入配置文件需要很长时间，Bash 的作者只好把配置文件分成了几个部分，阶段性载入。系统的通用设置放在 /etc/profile，用户个人的、需要被所有子进程继承的设置放在.profile，不需要被继承的设置放在.bashrc。</p>
+<p>顺便提一下，除了 Linux 以外， Mac OS X 使用的 shell 也是 Bash。但是，它只加载.bash_profile，然后在.bash_profile 里面调用.bashrc。而且，不管是 ssh 登录，还是在图形界面里启动 shell 窗口，都是如此。</p>
+<p><strong>参考链接</strong></p>
+<blockquote>
+<p>[1] Debian Wiki, <a target="_blank" rel="noopener" href="https://wiki.debian.org/EnvironmentVariables">Environment Variables</a></p>
+<p>[2] Debian Wiki, <a target="_blank" rel="noopener" href="https://wiki.debian.org/DotFiles">Dot Files</a></p>
+<p>[3] Debian Administration, <a target="_blank" rel="noopener" href="http://www.debian-administration.org/articles/212">An introduction to run-levels</a></p>
+<p>[4] Debian Admin，<a target="_blank" rel="noopener" href="http://www.debianadmin.com/debian-and-ubuntu-linux-run-levels.html">Debian and Ubuntu Linux Run Levels</a></p>
+<p>[5] Linux Information Project (LINFO), <a target="_blank" rel="noopener" href="http://www.linfo.org/runlevel_def.html">Runlevel Definition</a></p>
+<p>[6] LinuxQuestions.org, <a target="_blank" rel="noopener" href="http://wiki.linuxquestions.org/wiki/Run_Levels">What are run levels?</a></p>
+<p>[7] Dalton Hubble, <a target="_blank" rel="noopener" href="http://dghubble.com/.bashprofile-.profile-and-.bashrc-conventions.html">Bash Configurations Demystified</a></p>
+</blockquote>
+<p>（完）</p>
+<h3 id="文档信息"><a href="#文档信息" class="headerlink" title="文档信息"></a>文档信息</h3><ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享 3.0 许可证</a>）</li>
+<li>发表日期： 2013 年 8 月 17 日</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">paopao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://liu-hanxu.github.io/posts/59504.html">https://liu-hanxu.github.io/posts/59504.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liu-hanxu.github.io" target="_blank">跑跑的小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/44210.html"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">DNS 原理入门</div></div></a></div><div class="next-post pull-right"><a href="/posts/6728.html"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Unix 目录结构的来历</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/6728.html" title="Unix 目录结构的来历"><img class="cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-10</div><div class="title">Unix 目录结构的来历</div></div></a></div><div><a href="/posts/45531.html" title="User space 与 Kernel space"><img class="cover" src="https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-10</div><div class="title">User space 与 Kernel space</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">Linux 的启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E4%BF%A1%E6%81%AF"><span class="toc-number">1.0.1.</span> <span class="toc-text">文档信息</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/HanxuLiu/CDN1/cover/default_post_cover3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By paopao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">❤️</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div id="running-time"><script>setInterval(()=>{let create_time=Math.round(new Date('2021-05-20 00:00:00').getTime()/1000);let timestamp=Math.round((new Date().getTime()+8*60*60*1000)/1000);let second=timestamp-create_time;let time=new Array(0,0,0,0,0);if(second>=365*24*3600){time[0]=parseInt(second/(365*24*3600));second%=365*24*3600;}if(second>=24*3600){time[1]=parseInt(second/(24*3600));second%=24*3600;}if(second>=3600){time[2]=parseInt(second/3600);second%=3600;}if(second>=60){time[3]=parseInt(second/60);second%=60;}if(second>0){time[4]=second;}currentTimeHtml='本站已安全运行 '+time[0]+' 年 '+time[1]+' 天 '+time[2]+' 时 '+time[3]+' 分 '+time[4]+' 秒';document.getElementById("running-time").innerHTML=currentTimeHtml;},1000);</script></div></div></footer></div><a href="#" class="cd-top faa-float animated"></a><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1smxvwTGyUVgRTfci6s3TnrS-MdYXbMMI',
+      appKey: 'B1lcwzps04u451QtzT6ThlnD',
+      placeholder: '有没有什么想对我说的~~',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="/js/gotop.js"></script><script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script><script src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><linkrel="stylesheet"href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css"><scriptsrc="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script><scriptsrc="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script><script async data-pjax src="/js/custom/floatpanel.js"></script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script src="/js/ip_content.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('wowpanels');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/hexo-butterfly-wowjs/lib/wow_init.min.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

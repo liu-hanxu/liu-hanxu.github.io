@@ -1,0 +1,21 @@
+@media(max-width: 678px){.cd-top{display:none;}}
+
+.faa-float.animated {
+    -webkit-animation: float 2s linear infinite;
+    animation: float 2s linear infinite;
+}
+
+.cd-top {
+    position: fixed;
+    right: 25px;
+    top: -900px;
+    z-index: 99;
+    width: 70px;
+    height: 900px;
+    background: url(https://cdn.jsdelivr.net/gh/zzsnn/jsdelivr-fome/images/scroll.png) no-repeat center;  //蓝色
+    /*background: url(https://cdn.jsdelivr.net/gh/zzsnn/jsdelivr-fome/images/scroll-zs.png) no-repeat center;*/ //棕色
+    background-size: contain;
+    -webkit-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+    opacity: 1;
+}
