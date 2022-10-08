@@ -630,20 +630,6 @@
   </url>
   
   <url>
-    <loc>https://liu-hanxu.github.io/tags/V2Ray/</loc>
-    <lastmod>2022-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://liu-hanxu.github.io/tags/%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2022-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://liu-hanxu.github.io/tags/Linux%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2022-10-08</lastmod>
     <changefreq>weekly</changefreq>
@@ -659,6 +645,20 @@
   
   <url>
     <loc>https://liu-hanxu.github.io/tags/Vim/</loc>
+    <lastmod>2022-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://liu-hanxu.github.io/tags/V2Ray/</loc>
+    <lastmod>2022-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://liu-hanxu.github.io/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2022-10-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
